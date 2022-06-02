@@ -1,6 +1,6 @@
 import React from "react";
 
-const TodoEntryFieldContainer = () => {
+const TodoEntryField = () => {
     return (
         <div>
             <input placeholder="What needs to be done?"></input>
@@ -8,4 +8,4 @@ const TodoEntryFieldContainer = () => {
     );
 }
 
-export default TodoEntryFieldContainer;
+export default TodoEntryField;

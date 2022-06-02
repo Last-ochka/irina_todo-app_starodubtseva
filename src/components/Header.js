@@ -1,7 +1,7 @@
 import React from "react";
-import * as myConstClass from "./../components/constans.js";
+import * as myConstClass from "./constans.js";
 
-function HeaderContainer() {
+function Header() {
     return (
         <header>
             <h1>{myConstClass.headerName}</h1>
@@ -9,4 +9,4 @@ function HeaderContainer() {
     )
 }
 
-export default HeaderContainer;
+export default Header;
