@@ -1,4 +1,4 @@
-import HeaderContainer from "./containers/HeaderContainer"
+import Header from "./components/Header"
 import MainContent from "./components/MainContent"
 import Footer from "./components/Footer"
 import { BrowserRouter, Routes, Route } from 'react-router-dom'; /* ??? */
@@ -6,7 +6,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'; /* ??? */
 function App() {
   return (
     <div>
-      <HeaderContainer />
+      <Header />
       <MainContent />
       <Footer />
     </div>
