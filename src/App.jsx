@@ -1,13 +1,22 @@
-import Header from "./components/Header"
-import MainContent from "./components/MainContent"
-import Footer from "./components/Footer"
-import { BrowserRouter, Routes, Route } from 'react-router-dom'; /* ??? */
+import Header from "./components/Header";
+
+import Footer from "./components/Footer";
+import TodoList from "./pages/TodoList";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom"; /* ??? */
 
 function App() {
   return (
     <div>
       <Header />
-      <MainContent />
+
+      {/*   <Routes>
+                <Route exact path='/' component={All} /> {/*Home?}
+                <Route path='/active' component={Active} />
+                <Route path='/complited' component={Complited} /> 
+            </Routes>*/}
+      {/* <TodoEntryField /> */}
+      <TodoList />
       <Footer />
     </div>
   );

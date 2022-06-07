@@ -1,0 +1,12 @@
+.todo-item {
+  border-style: solid;
+  border-width: 1px;
+  width: 579px;
+  border-color: rgb(176, 176, 192);
+  margin-left: calc((100% - 575px) * 0.5);
+  font-size: 30px;
+  word-wrap: break-word;
+  line-height: 42px;
+  background: linear-gradient(180deg, #9ba4bd42, #989eac80);
+  color: #43455c;
+}

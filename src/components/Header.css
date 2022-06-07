@@ -1,0 +1,16 @@
+@font-face {
+  font-family: "Staatliches";
+  src: url("./../fonts/Staatliches-Regular.ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+header {
+  text-align: center;
+  font-size: 50px;
+  font-family: Staatliches;
+  color: rgba(61, 66, 99, 0.932);
+  letter-spacing: 10px;
+}
+h1 {
+  margin-bottom: 20px;
+}

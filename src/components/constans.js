@@ -1,4 +1,2 @@
-
-export const headerName = "TODO";
-export const footerName = "2022";
-export const taskList = [];
+export const HEADER_NAME = 'TODO';
+export const FOOTER_NAME = '2022';
