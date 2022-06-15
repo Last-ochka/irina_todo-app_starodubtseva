@@ -1,0 +1,11 @@
+input {
+  border: 1px solid rgb(176, 176, 192);
+  font-size: 44px;
+  margin-left: calc((100% - 575px) * 0.5);
+  line-height: 42px;
+  background: linear-gradient(180deg, #9ba4bd42, #989eac80);
+  outline:none;
+  color: #43455c;
+}
+
+
