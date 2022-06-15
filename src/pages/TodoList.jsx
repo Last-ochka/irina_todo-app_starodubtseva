@@ -7,7 +7,8 @@ class TodoList extends React.Component {
     super(props);
     this.state = { todoTaskList: [] };
     this.addTodo = this.addTodo.bind(this);
-     this.deleteTodo = this.deleteTodo.bind(this);
+    this.deleteTodo = this.deleteTodo.bind(this);
+    this.editingTodo = this.editingTodo.bind(this);
   }
 
   addTodo(item) {
@@ -15,10 +16,22 @@ class TodoList extends React.Component {
       todoTaskList: [...this.state.todoTaskList, item],
     });
   }
-   deleteTodo(index) {
-       this.setState({
-      todoTaskList: this.state.todoTaskList.filter((todo, id) => id !== index)});
- ;}
+  deleteTodo(index) {
+    this.setState({
+      todoTaskList: this.state.todoTaskList.filter((todo, id) => id !== index)
+    });
+    ;
+  }
+
+  editingTodo(neew, index) {
+
+    let arr = this.state.todoTaskList;
+    arr[index] = neew;
+    this.setState({
+      todoTaskList: arr
+    });
+
+  }
 
   render() {
     return (
@@ -27,9 +40,11 @@ class TodoList extends React.Component {
         {this.state.todoTaskList.map((element, index) => {
           return <TodoItem key={Math.random()}
             newTask={element}
-            deleteTodo={()=> this.deleteTodo(index)
-            } 
-            />;
+            elemEdit={this.elemEditing}
+            deleteTodo={() => this.deleteTodo(index)}
+            editingTodo={(neew) => this.editingTodo(neew, index)}
+
+          />;
         })}
       </div>
     );
