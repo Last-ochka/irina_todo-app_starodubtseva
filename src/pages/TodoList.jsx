@@ -7,6 +7,7 @@ class TodoList extends React.Component {
     super(props);
     this.state = { todoTaskList: [] };
     this.addTodo = this.addTodo.bind(this);
+    this.changeTodo = this.changeTodo.bind(this);
   }
 
   addTodo(item) {
@@ -14,7 +15,9 @@ class TodoList extends React.Component {
       todoTaskList: [...this.state.todoTaskList, item],
     });
   }
-
+  changeTodo(item) {
+    this.setState({ item: prompt("change task", item) });
+  }
   render() {
     return (
       <div className="todoList">
@@ -23,7 +26,7 @@ class TodoList extends React.Component {
           return <TodoItem key={Math.random()} newTask={element} />;
         })}
       </div>
-    );
+    ); //changeTodo={this.changeTodo}
   }
 }
 
