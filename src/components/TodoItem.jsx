@@ -4,7 +4,7 @@ import "./TodoItem.css";
 class TodoItem extends React.Component {
   constructor(props) {
     super(props);
-    this.chengeCheckbox = this.chengeCheckbox.bind(this);
+    this.elemChecked = this.elemChecked.bind(this);
     this.state = { checked: false, newElem: this.props.newTask, elemEdit: false };
     this.editTodo = this.editTodo.bind(this);
     this.onClickEdit = this.onClickEdit.bind(this);
@@ -12,11 +12,11 @@ class TodoItem extends React.Component {
   }
   editTodo() {
     this.setState({ elemEdit: !this.state.elemEdit });
+
   }
 
-  chengeCheckbox() {
-    this.setState({ checked: !this.state.checked });
-  }
+  //  this.props.todoIsChecked(this.state.elemIsChecked);
+
   onClickEdit = (e) => {
     this.setState({ newElem: e.target.value });
   }
@@ -26,13 +26,26 @@ class TodoItem extends React.Component {
       this.props.editingTodo(item)
     }
   }
+  elemChecked(e) {
+    this.setState({
+      checked: !this.state.checked
+    });
+
+  }
+
+  componentDidUpdate(prevState) {
+    console.log(`item ${this.state.checked}`)
+    if (prevState.checked !== this.state.checked) {
+      this.props.todoIsChecked(this.state.checked);
+    }
+  }
 
   render() {
     return (
       <div className="todo-item">
         <input type="checkbox"
           checked={this.state.checked}
-          onChange={this.chengeCheckbox}
+          onChange={(e) => { this.elemChecked(e) }}
           name="name" />
         <button className="edit"
           onClick={() => { this.editTodo() }}
@@ -44,8 +57,10 @@ class TodoItem extends React.Component {
             onBlur={() => this.props.editingTodo(this.state.newElem)}
             onChange={this.onClickEdit}
             value={this.state.newElem}
+            autoFocus
+
           /> :
-          <label>{this.props.newTask}</label>}
+          <label onDoubleClick={() => { this.editTodo() }}>{this.props.newTask}</label>}
 
         <button className="delete"
           onClick={() => { this.props.deleteTodo() }} />

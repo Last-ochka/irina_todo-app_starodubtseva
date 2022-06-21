@@ -38,6 +38,7 @@ class TodoForm extends React.Component {
           placeholder="What needs to be done?"
           value={this.state.name}
           onChange={this.onChange}
+          autoFocus
         ></input>
         <button onClick={() => { this.onClickAdd(this.state.name) }} />
       </>
