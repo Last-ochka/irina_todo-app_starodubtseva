@@ -33,13 +33,13 @@ class TodoForm extends React.Component {
   render() {
     return (
       <>
-        <input>
+        <input
           onKeyDown={(e) => this.onEnterDown(e, this.state.name)}
           placeholder="What needs to be done?"
           value={this.state.name}
           onChange={this.onChange}
           autoFocus
-        </input>
+        />
         <button onClick={() => { this.onClickAdd(this.state.name) }} />
 
       </>

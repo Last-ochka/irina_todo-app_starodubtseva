@@ -9,9 +9,9 @@ function App() {
       <Header />
 <BrowserRouter>
         <Routes>
-                <Route exact path='/' element={<TodoList marker={'all'} />} /> 
-                <Route path='/active' element={<TodoList marker={'active'}/>} />
-                 <Route path='/completed' element={<TodoList marker={'completed'}/>} />  
+                <Route exact path='/' element={<TodoList />} /> 
+                <Route path='/active' element={<TodoList />} />
+                 <Route path='/completed' element={<TodoList />} />  
             </Routes>
    </BrowserRouter>
 

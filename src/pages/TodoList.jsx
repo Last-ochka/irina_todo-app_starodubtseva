@@ -3,98 +3,108 @@ import TodoItem from "./../components/TodoItem";
 import TodoForm from "./../components/TodoForm";
 import TodoFooter from "./../components/TodoFooter";
 
-
 class TodoList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { todoTaskList: [] };
     this.addTodo = this.addTodo.bind(this);
-    this.state = { todoTaskList: [], todoChecked: false, todoTaskListActive: [], todoTaskListCompleted: [] };//           JSON.parse(localStorage.getItem('tasks')) ||
+    this.state = {
+      todoTaskList: [],
+      listForRender: [],
+    }; //           JSON.parse(localStorage.getItem('tasks')) подключить local storage
     this.addTodo = this.addTodo.bind(this);
     this.deleteTodo = this.deleteTodo.bind(this);
     this.editingTodo = this.editingTodo.bind(this);
     this.todoIsChecked = this.todoIsChecked.bind(this);
-}
+    this.showCompletedTodo = this.showCompletedTodo.bind(this);
+    this.showAllTodo = this.showAllTodo.bind(this);
+    this.showActiveTodo = this.showActiveTodo.bind(this);
+  }
 
   addTodo(item) {
     this.setState({
-      todoTaskList: [...this.state.todoTaskList, item],
+      todoTaskList: [
+        ...this.state.todoTaskList,
+        { todo: item, checked: false },
+      ],
+      listForRender: [
+        ...this.state.todoTaskList,
+        { todo: item, checked: false },
+      ],
     });
   }
 
   deleteTodo(index) {
     this.setState({
-      todoTaskList: this.state.todoTaskList.filter((todo, id) => id !== index)
+      todoTaskList: this.state.todoTaskList.filter((todo, id) => id !== index),
+      listForRender: this.state.todoTaskList.filter((todo, id) => id !== index),
     });
   }
 
   editingTodo(neew, index) {
     let arr = this.state.todoTaskList;
-    arr[index] = neew;
+    arr[index].todo = neew;
     this.setState({
-      todoTaskList: arr
+      todoTaskList: arr,
+      listForRender: arr,
     });
   }
 
   todoIsChecked(checked, element, index) {
-    // console.log(`list chek ${checked}`);
-    this.setState({ todoChecked: checked });
-//  console.log(`list ${this.state.todoChecked}`);
-
-    if (this.state.todoChecked === true) {
-      this.setState({ todoTaskListCompleted: [...this.state.todoTaskListCompleted, element] })
-    };
-
-    if (this.state.todoChecked === false) {
-      let splicedTaskList = this.state.todoTaskList.splice(index, 1);
-      this.setState({ todoTaskListCompleted: splicedTaskList })
-    };
-
-    let filteredTaskList = this.state.todoTaskList.filter((x) => {
-      return this.state.todoTaskListCompleted.indexOf(x) < 0;
+    let arr = this.state.todoTaskList;
+    arr[index].checked = !arr[index].checked;
+    this.setState({
+      todoTaskList: arr,
+      listForRender: arr,
     });
-    this.setState({ todoTaskListActive: filteredTaskList });
-
   }
 
-  renderSwitch(marker) {
-    switch (marker) {
-      case 'active':
-        return this.state.todoTaskListActive;
-        break;
-      case 'completed':
-        return this.state.todoTaskListCompleted;
-        break;
-      default:
-        return  this.setState({
-          filtredTodoTaskList: this.state.todoTaskList
-        });
-
-    }
+  showAllTodo() {
+    this.setState({
+      listForRender: this.state.todoTaskList,
+    });
+  }
+  showActiveTodo() {
+    const filtredList = this.state.todoTaskList.filter(
+      (item) => item.checked === false
+    );
+    this.setState({
+      listForRender: filtredList,
+    });
+  }
+  showCompletedTodo() {
+    const filtredList = this.state.todoTaskList.filter((item) => item.checked);
+    this.setState({
+      listForRender: filtredList,
+    });
   }
 
   render() {
     return (
       <div className="todoList">
         <TodoForm addTodo={this.addTodo} />
-
-{/*  {(this.renderSwitch(this.props.marker)) */}
-        {this.state.filtredTodoTaskList.map((element, index) => {
-
-          return <TodoItem key={Math.random()}
-            newTask={element}
-            elemEdit={this.elemEditing}
-            deleteTodo={() => this.deleteTodo(index)}
-            editingTodo={(neew) => this.editingTodo(neew, index)}
-            checked={this.state.todoChecked}
-            todoIsChecked={(checked) => this.todoIsChecked(checked, element)}
-          />;
+        {this.state.listForRender.map((element, index) => {
+          return (
+            <TodoItem
+              key={Math.random()}
+              newTask={element.todo}
+              elemEdit={this.elemEditing}
+              deleteTodo={() => this.deleteTodo(index)}
+              editingTodo={(neew) => this.editingTodo(neew, index)}
+              checked={element.checked}
+              todoIsChecked={(checked) =>
+                this.todoIsChecked(checked, element, index)
+              }
+            />
+          );
         })}
         <TodoFooter
-         countTodo={this.state.todoTaskList.length} />
+          showCompletedTodo={this.showCompletedTodo}
+          showAllTodo={this.showAllTodo}
+          showActiveTodo={this.showActiveTodo}
+          countTodo={this.state.todoTaskList.length}
+        />
       </div>
     );
-
   }
 }
 
