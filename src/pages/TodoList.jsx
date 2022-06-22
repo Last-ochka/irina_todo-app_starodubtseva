@@ -18,27 +18,30 @@ class TodoList extends React.Component {
     this.showCompletedTodo = this.showCompletedTodo.bind(this);
     this.showAllTodo = this.showAllTodo.bind(this);
     this.showActiveTodo = this.showActiveTodo.bind(this);
+    this.selectAll = this.selectAll.bind(this);
   }
 
- componentDidMount(){
-  this.showAllTodo();
- }
-  componentDidUpdate(prevProps){
-    const tasks = this.state.todoTaskList; // WRONG?
+  componentDidMount() {
+    this.showAllTodo();
+  }
+  componentDidUpdate(prevProps) {
+    const tasks = this.state.todoTaskList; 
     localStorage.setItem("tasks", JSON.stringify(tasks));
+
     if (prevProps.show !== this.props.show) {
-     switch (this.props.show) {
-     case 'all':
-      this.showAllTodo();
-    break;
-    case 'active':
-      this.showActiveTodo()
-    break;
-    case 'completed':
-      this.showCompletedTodo()
-    break;
+      switch (this.props.show) {
+        case 'all':
+          this.showAllTodo();
+          break;
+        case 'active':
+          this.showActiveTodo()
+          break;
+        case 'completed':
+          this.showCompletedTodo()
+          break;
+      }
     }
-  }}
+  }
   addTodo(item) {
     this.setState({
       todoTaskList: [
@@ -49,8 +52,29 @@ class TodoList extends React.Component {
         ...this.state.todoTaskList,
         { todo: item, checked: false },
       ],
-    }); 
+    });
 
+  }
+  selectAll() {
+    let arr = [];
+    let tasklist = this.state.todoTaskList;
+    if (tasklist.every(function (element) {
+     return element.checked === true;
+    })) {
+      arr = this.state.todoTaskList.map((el) => (
+        { ...el, checked: false }
+      ));
+    }
+    else {
+      arr = this.state.todoTaskList.map((el) => (
+        { ...el, checked: true }
+      ));
+    }
+    console.log(arr);
+    this.setState({
+      todoTaskList: arr,
+      listForRender: arr,
+    })
   }
 
   deleteTodo(index) {
@@ -97,11 +121,13 @@ class TodoList extends React.Component {
       listForRender: filtredList,
     });
   }
-  
+
   render() {
     return (
       <div className="todoList">
-        <TodoForm addTodo={this.addTodo} />
+        <TodoForm
+          addTodo={this.addTodo}
+          selectAll={this.selectAll} />
         {this.state.listForRender.map((element, index) => {
           return (
             <TodoItem
