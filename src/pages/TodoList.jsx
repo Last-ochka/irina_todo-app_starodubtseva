@@ -10,7 +10,7 @@ class TodoList extends React.Component {
     this.state = {
       todoTaskList: JSON.parse(localStorage.getItem("tasks")) || [],
       listForRender: [],
-    }; //           JSON.parse(localStorage.getItem('tasks')) подключить local storage
+    };
     this.addTodo = this.addTodo.bind(this);
     this.deleteTodo = this.deleteTodo.bind(this);
     this.editingTodo = this.editingTodo.bind(this);
@@ -19,13 +19,31 @@ class TodoList extends React.Component {
     this.showAllTodo = this.showAllTodo.bind(this);
     this.showActiveTodo = this.showActiveTodo.bind(this);
     this.selectAll = this.selectAll.bind(this);
+    this.deleteCompleted = this.deleteCompleted.bind(this);
   }
 
   componentDidMount() {
-    this.showAllTodo();
+    // this.showAllTodo();
+    switch (this.props.show) {
+      case 'all':
+        this.showAllTodo();
+        break;
+      case 'active':
+        this.showActiveTodo()
+        break;
+      case 'completed':
+        this.showCompletedTodo()
+        break;
+    }
   }
-  componentDidUpdate(prevProps) {
-    const tasks = this.state.todoTaskList; 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.todoTaskList !== this.state.todoTaskList) {
+      this.setState({
+        listForRender: this.state.todoTaskList,
+      })
+    }
+
+    const tasks = this.state.todoTaskList;
     localStorage.setItem("tasks", JSON.stringify(tasks));
 
     if (prevProps.show !== this.props.show) {
@@ -48,10 +66,6 @@ class TodoList extends React.Component {
         ...this.state.todoTaskList,
         { todo: item, checked: false },
       ],
-      listForRender: [
-        ...this.state.todoTaskList,
-        { todo: item, checked: false },
-      ],
     });
 
   }
@@ -59,7 +73,7 @@ class TodoList extends React.Component {
     let arr = [];
     let tasklist = this.state.todoTaskList;
     if (tasklist.every(function (element) {
-     return element.checked === true;
+      return element.checked === true;
     })) {
       arr = this.state.todoTaskList.map((el) => (
         { ...el, checked: false }
@@ -73,14 +87,20 @@ class TodoList extends React.Component {
     console.log(arr);
     this.setState({
       todoTaskList: arr,
-      listForRender: arr,
     })
+  }
+  deleteCompleted() {
+    const filtredList = this.state.todoTaskList.filter(
+      (item) => item.checked === false
+    );
+    this.setState({
+      todoTaskList: filtredList,
+    });
   }
 
   deleteTodo(index) {
     this.setState({
       todoTaskList: this.state.todoTaskList.filter((todo, id) => id !== index),
-      listForRender: this.state.todoTaskList.filter((todo, id) => id !== index),
     });
   }
 
@@ -89,7 +109,6 @@ class TodoList extends React.Component {
     arr[index].todo = neew;
     this.setState({
       todoTaskList: arr,
-      listForRender: arr,
     });
   }
 
@@ -98,7 +117,6 @@ class TodoList extends React.Component {
     arr[index].checked = !arr[index].checked;
     this.setState({
       todoTaskList: arr,
-      listForRender: arr,
     });
   }
 
@@ -127,7 +145,15 @@ class TodoList extends React.Component {
       <div className="todoList">
         <TodoForm
           addTodo={this.addTodo}
-          selectAll={this.selectAll} />
+        />
+        <TodoFooter
+          deleteCompleted={this.deleteCompleted}
+          selectAll={this.selectAll}
+          showCompletedTodo={this.showCompletedTodo}
+          showAllTodo={this.showAllTodo}
+          showActiveTodo={this.showActiveTodo}
+          countTodo={this.state.todoTaskList.length}
+        />
         {this.state.listForRender.map((element, index) => {
           return (
             <TodoItem
@@ -144,12 +170,7 @@ class TodoList extends React.Component {
             />
           );
         })}
-        <TodoFooter
-          showCompletedTodo={this.showCompletedTodo}
-          showAllTodo={this.showAllTodo}
-          showActiveTodo={this.showActiveTodo}
-          countTodo={this.state.todoTaskList.length}
-        />
+
       </div>
     );
   }

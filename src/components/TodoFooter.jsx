@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./TodoFooter.css";
 
 class TodoFooter extends React.Component {
   render() {
@@ -7,6 +8,10 @@ class TodoFooter extends React.Component {
       return (
         <footer className="footerTodo">
             <p>{this.props.countTodo}</p>
+            <button onClick={() => {
+            this.props.selectAll();
+          }} className="checkAll">All</button>
+
           <ul className="filters">
             <li>
               <Link to="/">
@@ -27,6 +32,9 @@ class TodoFooter extends React.Component {
               </Link>
             </li>
           </ul>
+
+          <button onClick={() => {
+            this.props.deleteCompleted();}}>Del Compl</button>
         </footer>
       );
     }

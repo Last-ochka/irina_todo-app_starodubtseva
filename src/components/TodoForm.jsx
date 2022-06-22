@@ -32,9 +32,7 @@ class TodoForm extends React.Component {
   render() {
     return (
       <div>
-      <button onClick={() => {
-            this.props.selectAll();
-          }} className="checkAll">All</button>
+      
         <input
           onKeyDown={(e) => this.onEnterDown(e, this.state.name)}
           placeholder="What needs to be done?"
