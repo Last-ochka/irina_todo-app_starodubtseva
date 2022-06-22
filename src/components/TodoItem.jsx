@@ -39,7 +39,7 @@ class TodoItem extends React.Component {
           onChange={() => {
             this.props.todoIsChecked();
           }}
-          name="name"
+          name={this.props.name}
         />
         <button
           className="edit"
@@ -57,8 +57,12 @@ class TodoItem extends React.Component {
             autoFocus
           />
         : 
-          <label
-            onDoubleClick={() => {
+          <label 
+          onClick={() => {
+            this.props.todoIsChecked();
+          }}
+          htmlFor={this.props.name}
+            onContextMenu={() => {
               this.editTodo();
             }}
           >

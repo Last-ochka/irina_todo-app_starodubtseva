@@ -1,19 +1,19 @@
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import TodoList from "./pages/TodoList";
-import { BrowserRouter, Routes, Route } from "react-router-dom"; /* ??? */
+import { HashRouter, Routes, Route } from "react-router-dom"; /* ??? */
 
 function App() {
   return (
     <div>
       <Header />
-<BrowserRouter>
+<HashRouter>
         <Routes>
-                <Route exact path='/' element={<TodoList />} /> 
-                <Route path='/active' element={<TodoList />} />
-                 <Route path='/completed' element={<TodoList />} />  
+                <Route path='/' element={<TodoList show={'all'} />} /> 
+                <Route path='/active' element={<TodoList show={'active'}/>} />
+                 <Route path='/completed' element={<TodoList  show={'completed'} />} />  
             </Routes>
-   </BrowserRouter>
+   </HashRouter>
 
       <Footer />
     </div>

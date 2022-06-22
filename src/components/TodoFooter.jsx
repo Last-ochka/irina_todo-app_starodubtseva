@@ -9,21 +9,19 @@ class TodoFooter extends React.Component {
             <p>{this.props.countTodo}</p>
           <ul className="filters">
             <li>
-              <Link onClick={() => this.props.showAllTodo()} to="/">
+              <Link to="/">
                 All
               </Link>
             </li>
 
             <li>
-              <Link onClick={() => this.props.showActiveTodo()} to="/active">
+              <Link  to="/active">
                 Active
               </Link>
             </li>
 
             <li>
-              <Link
-                onClick={() => this.props.showCompletedTodo()}
-                to="/completed"
+              <Link to="/completed"
               >
                 Completed
               </Link>

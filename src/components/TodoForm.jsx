@@ -1,5 +1,4 @@
 import React from "react";
-import TodoItem from "./TodoItem";
 import "./TodoForm.css";
 
 class TodoForm extends React.Component {
