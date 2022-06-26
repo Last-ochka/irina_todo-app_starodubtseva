@@ -2,6 +2,8 @@ import React from "react";
 import TodoItem from "./../components/TodoItem";
 import TodoForm from "./../components/TodoForm";
 import TodoFooter from "./../components/TodoFooter";
+import Pagination from "./../components/Pagination";
+import * as myConstClass from "./../components/constans.js";
 
 class TodoList extends React.Component {
   constructor(props) {
@@ -10,6 +12,10 @@ class TodoList extends React.Component {
     this.state = {
       todoTaskList: JSON.parse(localStorage.getItem("tasks")) || [],
       listForRender: [],
+      todosPage: [],
+      startIndex: myConstClass.PAGE_SIZE * ((JSON.parse(localStorage.getItem("startIndex")) || 1) - 1),
+      endIndex: myConstClass.PAGE_SIZE * ((JSON.parse(localStorage.getItem("endIndex")) || 1)),
+      currentPage: JSON.parse(localStorage.getItem("page")) || 1,
     };
     this.addTodo = this.addTodo.bind(this);
     this.deleteTodo = this.deleteTodo.bind(this);
@@ -20,6 +26,7 @@ class TodoList extends React.Component {
     this.showActiveTodo = this.showActiveTodo.bind(this);
     this.selectAll = this.selectAll.bind(this);
     this.deleteCompleted = this.deleteCompleted.bind(this);
+    this.goToPage = this.goToPage.bind(this);
   }
 
   componentDidMount() {
@@ -35,17 +42,36 @@ class TodoList extends React.Component {
         this.showCompletedTodo()
         break;
     }
+    
   }
   componentDidUpdate(prevProps, prevState) {
     if (prevState.todoTaskList !== this.state.todoTaskList) {
       this.setState({
         listForRender: this.state.todoTaskList,
+
+      })
+      const tasks = this.state.todoTaskList;
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+   if (prevState.listForRender !== this.state.listForRender) {
+      this.setState({
+        todosPage: this.state.listForRender.slice(this.state.startIndex, this.state.endIndex)
       })
     }
+    if (prevState.startIndex !== this.state.startIndex) {
+      this.setState({
+        todosPage: this.state.listForRender.slice(this.state.startIndex, this.state.endIndex)
+      })
+      const page = this.state.currentPage;
+      localStorage.setItem("page", JSON.stringify(page));
 
-    const tasks = this.state.todoTaskList;
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+      const startIndex = this.state.startIndex;
+      localStorage.setItem("startIndex", JSON.stringify(startIndex));
+      const endIndex = this.state.endIndex;
+      localStorage.setItem("endIndex", JSON.stringify(endIndex));
+    }
 
+    
     if (prevProps.show !== this.props.show) {
       switch (this.props.show) {
         case 'all':
@@ -64,7 +90,7 @@ class TodoList extends React.Component {
     this.setState({
       todoTaskList: [
         ...this.state.todoTaskList,
-        { todo: item, checked: false },
+        { todo: item, checked: false, id : Math.random() },
       ],
     });
 
@@ -98,23 +124,23 @@ class TodoList extends React.Component {
     });
   }
 
-  deleteTodo(index) {
+  deleteTodo(elementId) {
     this.setState({
-      todoTaskList: this.state.todoTaskList.filter((todo, id) => id !== index),
+      todoTaskList: this.state.todoTaskList.filter((todo, id) => todo.id !== elementId),
     });
   }
 
-  editingTodo(neew, index) {
+  editingTodo(neew, elementId) {
     let arr = this.state.todoTaskList;
-    arr[index].todo = neew;
+    arr.find(x => x.id === elementId).todo = neew;
     this.setState({
       todoTaskList: arr,
     });
   }
 
-  todoIsChecked(checked, element, index) {
+  todoIsChecked(elementId) {
     let arr = this.state.todoTaskList;
-    arr[index].checked = !arr[index].checked;
+    arr.find(x => x.id === elementId).checked = !arr.find(x => x.id === elementId).checked;
     this.setState({
       todoTaskList: arr,
     });
@@ -139,8 +165,19 @@ class TodoList extends React.Component {
       listForRender: filtredList,
     });
   }
+  goToPage(page) {
+
+    let start = myConstClass.PAGE_SIZE * (page - 1);
+    let end = myConstClass.PAGE_SIZE * page;
+    this.setState({
+      startIndex: start,
+      endIndex: end,
+      currentPage: page,
+    })
+  }
 
   render() {
+
     return (
       <div className="todoList">
         <TodoForm
@@ -154,23 +191,27 @@ class TodoList extends React.Component {
           showActiveTodo={this.showActiveTodo}
           countTodo={this.state.todoTaskList.length}
         />
-        {this.state.listForRender.map((element, index) => {
+        {this.state.todosPage.map((element) => {
           return (
             <TodoItem
               key={Math.random()}
               newTask={element.todo}
               elemEdit={this.elemEditing}
-              deleteTodo={() => this.deleteTodo(index)}
-              editingTodo={(neew) => this.editingTodo(neew, index)}
+              deleteTodo={() => this.deleteTodo(element.id)}
+              editingTodo={(neew) => this.editingTodo(neew, element.id)}
               checked={element.checked}
-              name={index}
-              todoIsChecked={(checked) =>
-                this.todoIsChecked(checked, element, index)
+              name={element}
+              todoIsChecked={() =>
+                this.todoIsChecked(element.id)
               }
             />
           );
         })}
-
+        <Pagination
+          totalPageCount={Math.ceil(((this.state.listForRender).length) / myConstClass.PAGE_SIZE)}
+          currentPage={this.state.currentPage}
+          goToPage={this.goToPage}
+        />
       </div>
     );
   }

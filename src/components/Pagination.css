@@ -1,0 +1,12 @@
+ul {
+    display: flex;
+    flex-direction: row;
+    margin: auto 0;
+    margin-left: calc((100% - 575px) * 0.5);
+}
+.pagination li{
+    margin: 0 3px;
+}
+button:target {
+background-color: brown;
+}
