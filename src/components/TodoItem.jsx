@@ -6,9 +6,9 @@ class TodoItem extends React.Component {
     super(props);
     // this.elemChecked = this.elemChecked.bind(this);
     this.state = {
-      checked: false, 
-      newElem: this.props.newTask, 
-      elemEdit: false, 
+      checked: false,
+      newElem: this.props.newTask,
+      elemEdit: false,
     };
     this.editTodo = this.editTodo.bind(this);
     this.onClickEdit = this.onClickEdit.bind(this);
@@ -28,8 +28,8 @@ class TodoItem extends React.Component {
     if (e.keyCode === 13) {
       this.props.editingTodo(item);
     }
-   
-   }
+
+  }
   render() {
     return (
       <div className="todo-item">
@@ -41,14 +41,8 @@ class TodoItem extends React.Component {
           }}
           name={this.props.name}
         />
-        <button
-          className="edit"
-          onClick={() => {
-            this.editTodo();
-          }}
-        />
 
-        {this.state.elemEdit ? 
+        {this.state.elemEdit ?
           <input
             onKeyDown={(e) => this.onEnterDown(e, this.state.newElem)}
             onBlur={() => this.props.editingTodo(this.state.newElem)}
@@ -56,12 +50,12 @@ class TodoItem extends React.Component {
             value={this.state.newElem}
             autoFocus
           />
-        : 
-          <label 
-          onClick={() => {
-            this.props.todoIsChecked();
-          }}
-          htmlFor={this.props.name}
+          :
+          <label
+            onClick={() => {
+              this.props.todoIsChecked();
+            }}
+            htmlFor={this.props.name}
             onContextMenu={() => {
               this.editTodo();
             }}
@@ -69,6 +63,12 @@ class TodoItem extends React.Component {
             {this.props.newTask}
           </label>
         }
+        <button
+          className="edit"
+          onClick={() => {
+            this.editTodo();
+          }}
+        />
 
         <button
           className="delete"

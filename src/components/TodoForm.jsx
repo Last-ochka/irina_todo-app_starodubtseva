@@ -33,7 +33,7 @@ class TodoForm extends React.Component {
   render() {
 
     return (
-      <div>
+      <div className="todoForm">
       
         <input
           onKeyDown={(e) => this.onEnterDown(e, this.state.name)}
@@ -42,7 +42,7 @@ class TodoForm extends React.Component {
           onChange={this.onChange}
           autoFocus
         />
-        <button onClick={() => { this.onClickAdd(this.state.name) }} />
+        <button onClick={() => { this.onClickAdd(this.state.name) }}  />
 
       </div>
     );

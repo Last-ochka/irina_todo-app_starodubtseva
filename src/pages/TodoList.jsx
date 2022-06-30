@@ -10,12 +10,16 @@ class TodoList extends React.Component {
     super(props);
     this.addTodo = this.addTodo.bind(this);
     this.state = {
+      smthChange: 0,
       todoTaskList: JSON.parse(localStorage.getItem("tasks")) || [],
       listForRender: [],
       todosPage: [],
-      startIndex: myConstClass.PAGE_SIZE * ((JSON.parse(localStorage.getItem("startIndex")) || 1) - 1),
-      endIndex: myConstClass.PAGE_SIZE * ((JSON.parse(localStorage.getItem("endIndex")) || 1)),
+      startIndex: myConstClass.PAGE_SIZE * ((JSON.parse(localStorage.getItem("page")) || 1) - 1),
+      endIndex: myConstClass.PAGE_SIZE * (JSON.parse(localStorage.getItem("page")) || 1),
       currentPage: JSON.parse(localStorage.getItem("page")) || 1,
+      selectedAll: '',
+      selectedActive: '',
+      selectedCompleted: '',
     };
     this.addTodo = this.addTodo.bind(this);
     this.deleteTodo = this.deleteTodo.bind(this);
@@ -30,7 +34,6 @@ class TodoList extends React.Component {
   }
 
   componentDidMount() {
-    // this.showAllTodo();
     switch (this.props.show) {
       case 'all':
         this.showAllTodo();
@@ -42,37 +45,39 @@ class TodoList extends React.Component {
         this.showCompletedTodo()
         break;
     }
-    
+
   }
+
   componentDidUpdate(prevProps, prevState) {
-    if (prevState.todoTaskList !== this.state.todoTaskList) {
+    if ((prevState.todoTaskList !== this.state.todoTaskList) || (prevState.smthChange !== this.state.smthChange)) {
       this.setState({
         listForRender: this.state.todoTaskList,
-
       })
       const tasks = this.state.todoTaskList;
-    localStorage.setItem("tasks", JSON.stringify(tasks));
+      localStorage.setItem("tasks", JSON.stringify(tasks));
     }
-   if (prevState.listForRender !== this.state.listForRender) {
+
+    if (prevState.listForRender !== this.state.listForRender) {
       this.setState({
-        todosPage: this.state.listForRender.slice(this.state.startIndex, this.state.endIndex)
+        todosPage: this.state.listForRender.slice(this.state.startIndex, this.state.endIndex),
       })
     }
+    if (prevState.currentPage !== this.state.currentPage) {
+      this.setState({
+        startIndex: myConstClass.PAGE_SIZE * (this.state.currentPage - 1),
+        endIndex: myConstClass.PAGE_SIZE * this.state.currentPage,
+      })
+    }
+
     if (prevState.startIndex !== this.state.startIndex) {
       this.setState({
-        todosPage: this.state.listForRender.slice(this.state.startIndex, this.state.endIndex)
+        todosPage: this.state.listForRender.slice(this.state.startIndex, this.state.endIndex),
       })
-      const page = this.state.currentPage;
+      let page = this.state.currentPage;
       localStorage.setItem("page", JSON.stringify(page));
-
-      const startIndex = this.state.startIndex;
-      localStorage.setItem("startIndex", JSON.stringify(startIndex));
-      const endIndex = this.state.endIndex;
-      localStorage.setItem("endIndex", JSON.stringify(endIndex));
     }
 
-    
-    if (prevProps.show !== this.props.show) {
+    if ((prevProps.show !== this.props.show) || (prevState.smthChange !== this.state.smthChange)) {
       switch (this.props.show) {
         case 'all':
           this.showAllTodo();
@@ -85,36 +90,38 @@ class TodoList extends React.Component {
           break;
       }
     }
+
   }
   addTodo(item) {
     this.setState({
       todoTaskList: [
         ...this.state.todoTaskList,
-        { todo: item, checked: false, id : Math.random() },
+        { todo: item, checked: false, id: Math.random() },
       ],
     });
-
   }
+
   selectAll() {
     let arr = [];
     let tasklist = this.state.todoTaskList;
     if (tasklist.every(function (element) {
       return element.checked === true;
     })) {
-      arr = this.state.todoTaskList.map((el) => (
+      arr = tasklist.map((el) => (
         { ...el, checked: false }
       ));
     }
     else {
-      arr = this.state.todoTaskList.map((el) => (
+      arr = tasklist.map((el) => (
         { ...el, checked: true }
       ));
     }
-    console.log(arr);
     this.setState({
       todoTaskList: arr,
     })
   }
+
+
   deleteCompleted() {
     const filtredList = this.state.todoTaskList.filter(
       (item) => item.checked === false
@@ -143,12 +150,16 @@ class TodoList extends React.Component {
     arr.find(x => x.id === elementId).checked = !arr.find(x => x.id === elementId).checked;
     this.setState({
       todoTaskList: arr,
+      smthChange: Math.random(),
     });
   }
 
   showAllTodo() {
     this.setState({
       listForRender: this.state.todoTaskList,
+      selectedAll: 'selected',
+      selectedActive: '',
+      selectedCompleted: '',
     });
   }
   showActiveTodo() {
@@ -157,12 +168,20 @@ class TodoList extends React.Component {
     );
     this.setState({
       listForRender: filtredList,
+      currentPage: 1,
+      selectedAll: '',
+      selectedActive: 'selected',
+      selectedCompleted: '',
     });
   }
   showCompletedTodo() {
     const filtredList = this.state.todoTaskList.filter((item) => item.checked);
     this.setState({
       listForRender: filtredList,
+      currentPage: 1, // нужно ли запоминать страницу аквтиных и завершенных? и настраивать роутинг страниц
+      selectedAll: '',
+      selectedActive: '',
+      selectedCompleted: 'selected',
     });
   }
   goToPage(page) {
@@ -190,6 +209,9 @@ class TodoList extends React.Component {
           showAllTodo={this.showAllTodo}
           showActiveTodo={this.showActiveTodo}
           countTodo={this.state.todoTaskList.length}
+          selectedAll={this.state.selectedAll}
+          selectedActive={this.state.selectedActive}
+          selectedCompleted={this.state.selectedCompleted}
         />
         {this.state.todosPage.map((element) => {
           return (

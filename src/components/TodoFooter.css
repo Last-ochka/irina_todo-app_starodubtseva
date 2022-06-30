@@ -9,9 +9,11 @@
   outline:none;
   color: #43455c;
   height: 30px;
+  position: relative;
 }
 .footerTodo p {
     margin: auto 20px;
+    position: relative;
 }
 ul {
     display: flex;
@@ -25,4 +27,18 @@ li {
 }
 a {
     text-decoration:none;
+}
+.checkAll {
+    position: relative;
+    left: -70px;
+    border: 0px;
+    width: 32px;
+    background-image: url("./../../img/check.png"), linear-gradient(180deg, #e6e8ee,  #cccfd6);
+    background-size: contain;
+background-repeat: no-repeat;
+background-position: 0%;
+}
+.selected {
+    border: #b0b0c0;
+    border-style: double;
 }
