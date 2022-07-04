@@ -7,26 +7,26 @@ class TodoFooter extends React.Component {
     if (this.props.countTodo > 0) {
       return (
         <footer className="footerTodo">
-            <p>{this.props.countTodo}</p>
             <button onClick={() => {
             this.props.selectAll();
-          }} className="checkAll">All</button>
+          }} 
+          className="checkAll" />
 
           <ul className="filters">
             <li>
-              <Link to="/">
+              <Link className={this.props.selectedAll} to="/">
                 All
               </Link>
             </li>
 
             <li>
-              <Link  to="/active">
+              <Link className={this.props.selectedActive} to="/active">
                 Active
               </Link>
             </li>
 
             <li>
-              <Link to="/completed"
+              <Link className={this.props.selectedCompleted} to="/completed"
               >
                 Completed
               </Link>
@@ -35,6 +35,7 @@ class TodoFooter extends React.Component {
 
           <button onClick={() => {
             this.props.deleteCompleted();}}>Del Compl</button>
+            <p>Total: {this.props.countTodo}</p>
         </footer>
       );
     }
