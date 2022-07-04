@@ -10,7 +10,7 @@ class TodoList extends React.Component {
     super(props);
     this.addTodo = this.addTodo.bind(this);
     this.state = {
-      filterParameter: 'all',
+      filterParameter:  JSON.parse(localStorage.getItem("filter")) || 'all',
       allChecked: false,
       todoChangeChecked: 0,
       todoTaskList: JSON.parse(localStorage.getItem("tasks")) || [],
@@ -48,6 +48,11 @@ class TodoList extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    if (prevState.filterParameter !== this.state.filterParameter) {
+    const filter = this.state.filterParameter;
+    localStorage.setItem("filter", JSON.stringify(filter));
+    }
+
     if ((prevState.todoTaskList !== this.state.todoTaskList) || (prevState.todoChangeChecked !== this.state.todoChangeChecked)) {
       this.setState({
         listForRender: this.state.todoTaskList,
