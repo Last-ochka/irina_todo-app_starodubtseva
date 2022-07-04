@@ -10,6 +10,7 @@ class TodoList extends React.Component {
     super(props);
     this.addTodo = this.addTodo.bind(this);
     this.state = {
+      filterParameter: 'all',
       allChecked: false,
       todoChangeChecked: 0,
       todoTaskList: JSON.parse(localStorage.getItem("tasks")) || [],
@@ -18,9 +19,6 @@ class TodoList extends React.Component {
       startIndex: myConstClass.PAGE_SIZE * ((JSON.parse(localStorage.getItem("page")) || 1) - 1),
       endIndex: myConstClass.PAGE_SIZE * (JSON.parse(localStorage.getItem("page")) || 1),
       currentPage: JSON.parse(localStorage.getItem("page")) || 1,
-      selectedAll: '',
-      selectedActive: '',
-      selectedCompleted: '',
     };
     this.addTodo = this.addTodo.bind(this);
     this.deleteTodo = this.deleteTodo.bind(this);
@@ -32,10 +30,11 @@ class TodoList extends React.Component {
     this.selectAll = this.selectAll.bind(this);
     this.deleteCompleted = this.deleteCompleted.bind(this);
     this.goToPage = this.goToPage.bind(this);
+    this.getTodos = this.getTodos.bind(this);
   }
 
   componentDidMount() {
-    switch (this.props.show) {
+    switch (this.state.filterParameter) {
       case 'all':
         this.showAllTodo();
         break;
@@ -46,7 +45,6 @@ class TodoList extends React.Component {
         this.showCompletedTodo()
         break;
     }
-
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -91,8 +89,8 @@ class TodoList extends React.Component {
       localStorage.setItem("page", JSON.stringify(page));
     }
 
-    if ((prevProps.show !== this.props.show) || (prevState.todoChangeChecked !== this.state.todoChangeChecked)) {
-      switch (this.props.show) {
+    if (prevState.todoChangeChecked !== this.state.todoChangeChecked) {
+      switch (this.state.filterParameter) {
         case 'all':
           this.showAllTodo();
           break;
@@ -104,8 +102,8 @@ class TodoList extends React.Component {
           break;
       }
     }
-
   }
+
   addTodo(item) {
     this.setState({
       todoTaskList: [
@@ -137,7 +135,6 @@ class TodoList extends React.Component {
       todoTaskList: arr,
     })
   }
-
 
   deleteCompleted() {
     const filtredList = this.state.todoTaskList.filter(
@@ -171,38 +168,48 @@ class TodoList extends React.Component {
     });
   }
 
+  getTodos(a) {
+    switch (a) {
+      case 'all':
+        this.showAllTodo();
+        break;
+      case 'active':
+        this.showActiveTodo()
+        break;
+      case 'completed':
+        this.showCompletedTodo()
+        break;
+    }
+  }
+
   showAllTodo() {
     this.setState({
       listForRender: this.state.todoTaskList,
-      selectedAll: 'selected',
-      selectedActive: '',
-      selectedCompleted: '',
+      filterParameter: 'all',
     });
   }
+
   showActiveTodo() {
     const filtredList = this.state.todoTaskList.filter(
       (item) => item.checked === false
     );
     this.setState({
       listForRender: filtredList,
+      filterParameter: 'active',
       currentPage: 1,
-      selectedAll: '',
-      selectedActive: 'selected',
-      selectedCompleted: '',
     });
   }
+
   showCompletedTodo() {
     const filtredList = this.state.todoTaskList.filter((item) => item.checked);
     this.setState({
       listForRender: filtredList,
-      currentPage: 1, // нужно ли запоминать страницу аквтиных и завершенных? и настраивать роутинг страниц
-      selectedAll: '',
-      selectedActive: '',
-      selectedCompleted: 'selected',
+      filterParameter: 'completed',
+      currentPage: 1,
     });
   }
-  goToPage(page) {
 
+  goToPage(page) {
     let start = myConstClass.PAGE_SIZE * (page - 1);
     let end = myConstClass.PAGE_SIZE * page;
     this.setState({
@@ -213,22 +220,17 @@ class TodoList extends React.Component {
   }
 
   render() {
-
     return (
       <div className="todoList">
         <TodoForm
           addTodo={this.addTodo}
         />
         <TodoFooter
+          getTodos={this.getTodos}
+          filterParameter={this.state.filterParameter}
           deleteCompleted={this.deleteCompleted}
           selectAll={this.selectAll}
-          showCompletedTodo={this.showCompletedTodo}
-          showAllTodo={this.showAllTodo}
-          showActiveTodo={this.showActiveTodo}
           countTodo={this.state.todoTaskList.length}
-          selectedAll={this.state.selectedAll}
-          selectedActive={this.state.selectedActive}
-          selectedCompleted={this.state.selectedCompleted}
           checked={this.state.allChecked}
         />
         {this.state.todosPage.map((element) => {

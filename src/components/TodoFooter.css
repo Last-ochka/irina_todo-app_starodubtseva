@@ -19,22 +19,17 @@ ul {
     display: flex;
     flex-direction: row;
     margin: auto 0;
+    padding: 0;
 }
 li {
-    margin: 0 10px;
+    margin: 0 20px;
     list-style-type: none;
-   
+   display: flex;
 }
-a {
-    text-decoration:none;
-}
+
 .checkAll {
     position: relative;
-    left: -70px;
+    left: -25px;
     border: 0px;
     width: 32px;
 } 
-.selected {
-    border: #b0b0c0;
-    border-style: double;
-}

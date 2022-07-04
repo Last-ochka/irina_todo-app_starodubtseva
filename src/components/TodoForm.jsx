@@ -24,26 +24,22 @@ class TodoForm extends React.Component {
     }
   }
 
-
   onClickAdd(item) {
     this.props.addTodo(item);
     this.setState({ name: "" });
- }
+  }
 
   render() {
-
     return (
       <div className="todoForm">
-      
-        <input
+        <input className="todoForm__input"
           onKeyDown={(e) => this.onEnterDown(e, this.state.name)}
           placeholder="What needs to be done?"
           value={this.state.name}
           onChange={this.onChange}
           autoFocus
         />
-        <button onClick={() => { this.onClickAdd(this.state.name) }}  />
-
+        <button onClick={() => { this.onClickAdd(this.state.name) }} />
       </div>
     );
   }
