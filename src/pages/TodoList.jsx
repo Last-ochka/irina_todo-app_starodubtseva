@@ -10,7 +10,8 @@ class TodoList extends React.Component {
     super(props);
     this.addTodo = this.addTodo.bind(this);
     this.state = {
-      smthChange: 0,
+      allChecked: false,
+      todoChangeChecked: 0,
       todoTaskList: JSON.parse(localStorage.getItem("tasks")) || [],
       listForRender: [],
       todosPage: [],
@@ -23,7 +24,7 @@ class TodoList extends React.Component {
     };
     this.addTodo = this.addTodo.bind(this);
     this.deleteTodo = this.deleteTodo.bind(this);
-    this.editingTodo = this.editingTodo.bind(this);
+    this.editTodo = this.editTodo.bind(this);
     this.todoIsChecked = this.todoIsChecked.bind(this);
     this.showCompletedTodo = this.showCompletedTodo.bind(this);
     this.showAllTodo = this.showAllTodo.bind(this);
@@ -49,10 +50,23 @@ class TodoList extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if ((prevState.todoTaskList !== this.state.todoTaskList) || (prevState.smthChange !== this.state.smthChange)) {
+    if ((prevState.todoTaskList !== this.state.todoTaskList) || (prevState.todoChangeChecked !== this.state.todoChangeChecked)) {
       this.setState({
         listForRender: this.state.todoTaskList,
       })
+      let tasklist = this.state.todoTaskList;
+      if (tasklist.every(function (element) {
+        return element.checked === true;
+      })) {
+        this.setState({
+          allChecked: true,
+        })
+      }
+      else {
+        this.setState({
+          allChecked: false,
+        })
+      }
       const tasks = this.state.todoTaskList;
       localStorage.setItem("tasks", JSON.stringify(tasks));
     }
@@ -77,7 +91,7 @@ class TodoList extends React.Component {
       localStorage.setItem("page", JSON.stringify(page));
     }
 
-    if ((prevProps.show !== this.props.show) || (prevState.smthChange !== this.state.smthChange)) {
+    if ((prevProps.show !== this.props.show) || (prevState.todoChangeChecked !== this.state.todoChangeChecked)) {
       switch (this.props.show) {
         case 'all':
           this.showAllTodo();
@@ -115,6 +129,9 @@ class TodoList extends React.Component {
       arr = tasklist.map((el) => (
         { ...el, checked: true }
       ));
+      this.setState({
+        allChecked: true,
+      })
     }
     this.setState({
       todoTaskList: arr,
@@ -137,7 +154,7 @@ class TodoList extends React.Component {
     });
   }
 
-  editingTodo(neew, elementId) {
+  editTodo(neew, elementId) {
     let arr = this.state.todoTaskList;
     arr.find(x => x.id === elementId).todo = neew;
     this.setState({
@@ -150,7 +167,7 @@ class TodoList extends React.Component {
     arr.find(x => x.id === elementId).checked = !arr.find(x => x.id === elementId).checked;
     this.setState({
       todoTaskList: arr,
-      smthChange: Math.random(),
+      todoChangeChecked: Math.random(),
     });
   }
 
@@ -212,6 +229,7 @@ class TodoList extends React.Component {
           selectedAll={this.state.selectedAll}
           selectedActive={this.state.selectedActive}
           selectedCompleted={this.state.selectedCompleted}
+          checked={this.state.allChecked}
         />
         {this.state.todosPage.map((element) => {
           return (
@@ -220,7 +238,7 @@ class TodoList extends React.Component {
               newTask={element.todo}
               elemEdit={this.elemEditing}
               deleteTodo={() => this.deleteTodo(element.id)}
-              editingTodo={(neew) => this.editingTodo(neew, element.id)}
+              editTodo={(neew) => this.editTodo(neew, element.id)}
               checked={element.checked}
               name={element}
               todoIsChecked={() =>

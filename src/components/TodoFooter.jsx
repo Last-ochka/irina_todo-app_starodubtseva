@@ -7,13 +7,15 @@ class TodoFooter extends React.Component {
     if (this.props.countTodo > 0) {
       return (
         <footer className="footerTodo">
-            <button onClick={() => {
+            <input type='checkbox' checked={this.props.checked} onChange={() => {
             this.props.selectAll();
           }} 
           className="checkAll" />
 
           <ul className="filters">
             <li>
+
+
               <Link className={this.props.selectedAll} to="/">
                 All
               </Link>
