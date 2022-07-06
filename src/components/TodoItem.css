@@ -2,7 +2,7 @@
   border-style: solid;
   border-width: 1px;
   width: 579px; /* calc(3rem*12.25); */
- border-color: rgb(176, 176, 192);
+  border-color: rgb(176, 176, 192);
   margin-left: calc((100% - 575px) * 0.5);
   font-size: 30px;
   word-wrap: break-word;
@@ -16,22 +16,40 @@
 .todo-item button.delete {
   display: block;
   margin: auto 0;
-width: 20px;
-height: 20px;
-background-image: url("./../../img/trash.png") ;
-background-color: rgba(255, 255, 255, 0);
-border: 0px;
-background-repeat: no-repeat;
-transform:scale(0.8);
-position:absolute;
-right: 50px;
-top: 0px;
-bottom: 0px;
-
+  width: 20px;
+  height: 20px;
+  background-image: url("./../../img/trash.png");
+  background-color: rgba(255, 255, 255, 0);
+  border: 0px;
+  background-repeat: no-repeat;
+  transform: scale(0.8);
+  position: absolute;
+  right: 15px;
+  top: 0px;
+  bottom: 0px;
+}
+.todo-item button.edit {
+  display: block;
+  margin: auto 0;
+  width: 42px;
+  height: 26px;
+  background-image: url("./../../img/edit.png");
+  background-color: rgba(255, 255, 255, 0);
+  border: 0px;
+  background-repeat: no-repeat;
+  transform: scale(0.7);
+  background-size: contain;
+  position: relative;
+  left: 23px;
 }
 .todo-item label {
   word-break: break-all;
   width: 450px;
   margin-left: 10px;
-  min-height: 1.4em ;
+  min-height: 1.4em;
+}
+input.edit-todo {
+  width: 452px;
+  height: 36px;
+  font-size: 30px;
 }
