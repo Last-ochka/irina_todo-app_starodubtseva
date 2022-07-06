@@ -1,0 +1,35 @@
+.footerTodo {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid rgb(176, 176, 192);
+    width: 579px;
+    margin-left: calc((100% - 575px) * 0.5);
+    justify-content: center;
+  background: linear-gradient(180deg, #9ba4bd42, #989eac80);
+  outline:none;
+  color: #43455c;
+  height: 30px;
+  position: relative;
+}
+.footerTodo p {
+    margin: auto 20px;
+    position: relative;
+}
+ul {
+    display: flex;
+    flex-direction: row;
+    margin: auto 0;
+    padding: 0;
+}
+li {
+    margin: 0 20px;
+    list-style-type: none;
+   display: flex;
+}
+
+.checkAll {
+    position: relative;
+    left: -25px;
+    border: 0px;
+    width: 32px;
+} 

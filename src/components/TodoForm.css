@@ -1,11 +1,35 @@
-input {
+.todoForm__input {
   border: 1px solid rgb(176, 176, 192);
-  font-size: 44px;
-  margin-left: calc((100% - 575px) * 0.5);
+  font-size: 44px;  
   line-height: 42px;
   background: linear-gradient(180deg, #9ba4bd42, #989eac80);
   outline:none;
-  color: #43455c;
+  color: #43455c; 
+  margin-left: calc((100% - 575px) * 0.5);
+}
+.todoForm button {
+  width: 28px;
+height: 56px;
+position: relative;
+bottom: -11px;
+border: 1px solid rgb(176, 176, 192);
+background-image: url("./../../img/add.png"), linear-gradient(180deg, #e6e8ee, #989eac80);
+background-size: contain;
+background-repeat: no-repeat;
+background-position: 0%;
 }
 
+.todoForm button:hover {
+  background-image: url("./../../img/add3.png"), linear-gradient(180deg, #e6e8ee, #989eac80);
+}
+.todoForm button:active {
+  background-image: url("./../../img/add2.png"),  linear-gradient(180deg, #e6e8ee, #989eac80);
+}
+.todoForm__input {
+width: 547px;
 
+}
+
+div.todoForm{
+  position: relative;
+}

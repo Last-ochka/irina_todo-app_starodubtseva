@@ -1,34 +1,44 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import "./TodoFooter.css";
 
 class TodoFooter extends React.Component {
   render() {
     if (this.props.countTodo > 0) {
       return (
         <footer className="footerTodo">
-            <p>{this.props.countTodo}</p>
+          <input type='checkbox' checked={this.props.checked} onChange={() => {
+            this.props.selectAll();
+          }}
+            className="checkAll" />
           <ul className="filters">
             <li>
-              <Link onClick={() => this.props.showAllTodo()} to="/">
-                All
-              </Link>
+              <input type="radio" name="radio" value="all"
+                onChange={() => {
+                  this.props.getTodos('all');
+                }} />
+              All
             </li>
-
             <li>
-              <Link onClick={() => this.props.showActiveTodo()} to="/active">
-                Active
-              </Link>
+              <input type="radio" name="radio" value="active"
+                onChange={() => {
+                  this.props.getTodos('active');
+                }} />
+              Active
             </li>
-
             <li>
-              <Link
-                onClick={() => this.props.showCompletedTodo()}
-                to="/completed"
-              >
-                Completed
-              </Link>
+              <input type="radio" name="radio" value="completed"
+
+                onChange={() => {
+                  this.props.getTodos('completed');
+                }} />
+              Completed
             </li>
           </ul>
+          <button onClick={() => {
+            this.props.deleteCompleted();
+          }}>Del Compl</button>
+          <p>Total: {this.props.countTodo}</p>
         </footer>
       );
     }

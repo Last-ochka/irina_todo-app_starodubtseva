@@ -1,6 +1,6 @@
 import React from "react";
-import TodoItem from "./TodoItem";
 import "./TodoForm.css";
+
 
 class TodoForm extends React.Component {
   constructor(props) {
@@ -24,16 +24,15 @@ class TodoForm extends React.Component {
     }
   }
 
-
   onClickAdd(item) {
     this.props.addTodo(item);
     this.setState({ name: "" });
- }
+  }
 
   render() {
     return (
-      <>
-        <input
+      <div className="todoForm">
+        <input className="todoForm__input"
           onKeyDown={(e) => this.onEnterDown(e, this.state.name)}
           placeholder="What needs to be done?"
           value={this.state.name}
@@ -41,8 +40,7 @@ class TodoForm extends React.Component {
           autoFocus
         />
         <button onClick={() => { this.onClickAdd(this.state.name) }} />
-
-      </>
+      </div>
     );
   }
 }
