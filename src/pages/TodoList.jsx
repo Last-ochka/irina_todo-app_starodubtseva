@@ -158,34 +158,20 @@ class TodoList extends React.Component {
   }
 
   getTodos(a) {
-    switch (a) {
-      case "all":
-        this.setState({
-          listForRender: this.state.todoTaskList,
-          filterParameter: "all",
-        });
-        break;
-      case "active":
-        const filtredList = this.state.todoTaskList.filter(
-          (item) => item.checked === false
-        );
-        this.setState({
-          listForRender: filtredList,
-          filterParameter: "active",
-          currentPage: 1,
-        });
-        break;
-      case "completed":
-        const filtredList2 = this.state.todoTaskList.filter(
-          (item) => item.checked
-        );
-        this.setState({
-          listForRender: filtredList2,
-          filterParameter: "completed",
-          currentPage: 1,
-        });
-        break;
-    }
+    const filtredList = this.state.todoTaskList.filter((todo) => {
+      if (a === "active") {
+        return !todo.checked;
+      } else if (a === "completed") {
+        return todo.checked;
+      } else {
+        return todo;
+      }
+    });
+    this.setState({
+      listForRender: filtredList,
+      filterParameter: a,
+      currentPage: 1,
+    });
   }
   goToPage(page) {
     let start = myConstClass.PAGE_SIZE * (page - 1);
