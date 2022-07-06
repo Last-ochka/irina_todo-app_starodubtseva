@@ -7,13 +7,11 @@ function App() {
   return (
     <div>
       <Header />
-<HashRouter>
+      <HashRouter>
         <Routes>
-                <Route path='/' element={<TodoList show={'all'} />} /> 
-                <Route path='/active' element={<TodoList show={'active'}/>} />
-                 <Route path='/completed' element={<TodoList  show={'completed'} />} />  
-            </Routes>
-   </HashRouter>
+          <Route path='/' element={<TodoList />} />
+        </Routes>
+      </HashRouter>
 
       <Footer />
     </div>

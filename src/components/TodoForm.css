@@ -1,4 +1,4 @@
-input {
+.todoForm__input {
   border: 1px solid rgb(176, 176, 192);
   font-size: 44px;  
   line-height: 42px;
@@ -25,7 +25,7 @@ background-position: 0%;
 .todoForm button:active {
   background-image: url("./../../img/add2.png"),  linear-gradient(180deg, #e6e8ee, #989eac80);
 }
-.todoForm input {
+.todoForm__input {
 width: 547px;
 
 }

@@ -7,8 +7,8 @@ class Pagination extends React.Component {
     constructor(props) {
         super(props);
         this.renderSwitch = this.renderSwitch.bind(this);
-  }
- 
+    }
+
     range = (start, end) => {
         let length = end - start + 1;
         return Array.from({ length }, (_, idx) => idx + start);
@@ -19,20 +19,18 @@ class Pagination extends React.Component {
         switch (count) {
             case 2: return (
                 <ul className="pagination">
-                       <p>Page {this.props.currentPage}</p>
+                    <p>Page {this.props.currentPage}</p>
                     <li><button onClick={() => {
                         this.props.goToPage(1);
                     }} >1</button></li>
                     <li><button onClick={() => {
                         this.props.goToPage(2);
                     }} >2</button></li>
-
-
                 </ul>
             )
             case 3: return (
                 <ul className="pagination">
-                       <p>Page {this.props.currentPage}</p>
+                    <p>Page {this.props.currentPage}</p>
                     <li><button onClick={() => {
                         this.props.goToPage(1);
                     }} >1</button></li>
@@ -42,18 +40,16 @@ class Pagination extends React.Component {
                     <li><button onClick={() => {
                         this.props.goToPage(3);
                     }} >3</button></li>
-
                 </ul>
             )
             case 1: return (<></>)
             case 0: return (<></>)
             default:
-                
                 switch (p) {
                     case 1:
                         return (
                             <ul className="pagination">
-                                   <p>Page {this.props.currentPage}</p>
+                                <p>Page {this.props.currentPage}</p>
                                 <li><button onClick={() => {
                                     this.props.goToPage(1);
                                 }} >Start</button></li>
@@ -72,7 +68,7 @@ class Pagination extends React.Component {
                     case count:
                         return (
                             <ul className="pagination">
-                                   <p>Page {this.props.currentPage}</p>
+                                <p>Page {this.props.currentPage}</p>
                                 <li><button onClick={() => {
                                     this.props.goToPage(1);
                                 }} >Start</button></li>
@@ -88,12 +84,10 @@ class Pagination extends React.Component {
                                     this.props.goToPage(count);
                                 }}>End</button></li>
                             </ul>)
-
-
                     default:
                         return (
                             <ul className="pagination">
-                                   <p>Page {this.props.currentPage}</p>
+                                <p>Page {this.props.currentPage}</p>
                                 <li><button onClick={() => {
                                     this.props.goToPage(1);
                                 }} >Start</button></li>
@@ -115,7 +109,6 @@ class Pagination extends React.Component {
     render() {
         return (
             <>
-         
                 {this.renderSwitch(this.props.totalPageCount)}
             </>
 

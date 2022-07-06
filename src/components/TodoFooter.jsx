@@ -7,35 +7,38 @@ class TodoFooter extends React.Component {
     if (this.props.countTodo > 0) {
       return (
         <footer className="footerTodo">
-            <button onClick={() => {
+          <input type='checkbox' checked={this.props.checked} onChange={() => {
             this.props.selectAll();
-          }} 
-          className="checkAll" />
-
+          }}
+            className="checkAll" />
           <ul className="filters">
             <li>
-              <Link className={this.props.selectedAll} to="/">
-                All
-              </Link>
+              <input type="radio" name="radio" value="all"
+                onChange={() => {
+                  this.props.getTodos('all');
+                }} />
+              All
             </li>
-
             <li>
-              <Link className={this.props.selectedActive} to="/active">
-                Active
-              </Link>
+              <input type="radio" name="radio" value="active"
+                onChange={() => {
+                  this.props.getTodos('active');
+                }} />
+              Active
             </li>
-
             <li>
-              <Link className={this.props.selectedCompleted} to="/completed"
-              >
-                Completed
-              </Link>
+              <input type="radio" name="radio" value="completed"
+
+                onChange={() => {
+                  this.props.getTodos('completed');
+                }} />
+              Completed
             </li>
           </ul>
-
           <button onClick={() => {
-            this.props.deleteCompleted();}}>Del Compl</button>
-            <p>Total: {this.props.countTodo}</p>
+            this.props.deleteCompleted();
+          }}>Del Compl</button>
+          <p>Total: {this.props.countTodo}</p>
         </footer>
       );
     }

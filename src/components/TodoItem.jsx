@@ -6,7 +6,6 @@ class TodoItem extends React.Component {
     super(props);
     // this.elemChecked = this.elemChecked.bind(this);
     this.state = {
-      checked: false,
       newElem: this.props.newTask,
       elemEdit: false,
     };
@@ -26,7 +25,7 @@ class TodoItem extends React.Component {
 
   onEnterDown(e, item) {
     if (e.keyCode === 13) {
-      this.props.editingTodo(item);
+      this.props.editTodo(item);
     }
 
   }
@@ -45,7 +44,7 @@ class TodoItem extends React.Component {
         {this.state.elemEdit ?
           <input
             onKeyDown={(e) => this.onEnterDown(e, this.state.newElem)}
-            onBlur={() => this.props.editingTodo(this.state.newElem)}
+            onBlur={() => this.props.editTodo(this.state.newElem)}
             onChange={this.onClickEdit}
             value={this.state.newElem}
             autoFocus
