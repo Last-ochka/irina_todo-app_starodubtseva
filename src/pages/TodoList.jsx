@@ -167,12 +167,24 @@ class TodoList extends React.Component {
         return todo;
       }
     });
+
+    function page(n) {
+      if (filtredList.length < (n - 1) * myConstClass.PAGE_SIZE) {
+        return page(n - 1);
+      } else {
+        return n;
+      }
+    }
+
+    let newPage = page(this.state.currentPage);
+
     this.setState({
       listForRender: filtredList,
       filterParameter: a,
-      currentPage: 1,
+      currentPage: newPage,
     });
-  } 
+  }
+
   goToPage(page) {
     let start = myConstClass.PAGE_SIZE * (page - 1);
     let end = myConstClass.PAGE_SIZE * page;
