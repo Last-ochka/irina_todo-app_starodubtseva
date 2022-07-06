@@ -172,7 +172,7 @@ class TodoList extends React.Component {
       filterParameter: a,
       currentPage: 1,
     });
-  }
+  } 
   goToPage(page) {
     let start = myConstClass.PAGE_SIZE * (page - 1);
     let end = myConstClass.PAGE_SIZE * page;

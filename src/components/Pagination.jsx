@@ -19,7 +19,7 @@ class Pagination extends React.Component {
         switch (count) {
             case 2: return (
                 <ul className="pagination">
-                    <p>Page {this.props.currentPage}</p>
+                    <p>{myConstClass.PAGE_NUMBER} {this.props.currentPage}</p>
                     <li><button onClick={() => {
                         this.props.goToPage(1);
                     }} >1</button></li>
@@ -30,7 +30,7 @@ class Pagination extends React.Component {
             )
             case 3: return (
                 <ul className="pagination">
-                    <p>Page {this.props.currentPage}</p>
+                    <p>{myConstClass.PAGE_NUMBER} {this.props.currentPage}</p>
                     <li><button onClick={() => {
                         this.props.goToPage(1);
                     }} >1</button></li>
@@ -49,7 +49,7 @@ class Pagination extends React.Component {
                     case 1:
                         return (
                             <ul className="pagination">
-                                <p>Page {this.props.currentPage}</p>
+                                <p>{myConstClass.PAGE_NUMBER}{this.props.currentPage}</p>
                                 <li><button onClick={() => {
                                     this.props.goToPage(1);
                                 }} >Start</button></li>
@@ -68,7 +68,7 @@ class Pagination extends React.Component {
                     case count:
                         return (
                             <ul className="pagination">
-                                <p>Page {this.props.currentPage}</p>
+                                <p>{myConstClass.PAGE_NUMBER} {this.props.currentPage}</p>
                                 <li><button onClick={() => {
                                     this.props.goToPage(1);
                                 }} >Start</button></li>
@@ -87,7 +87,7 @@ class Pagination extends React.Component {
                     default:
                         return (
                             <ul className="pagination">
-                                <p>Page {this.props.currentPage}</p>
+                                <p>{myConstClass.PAGE_NUMBER} {this.props.currentPage}</p>
                                 <li><button onClick={() => {
                                     this.props.goToPage(1);
                                 }} >Start</button></li>

@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import "./TodoFooter.css";
 import * as myConstClass from "./../components/constans.js";
 
@@ -51,6 +50,7 @@ class TodoFooter extends React.Component {
               {myConstClass.SORTING_COMPLETED}
             </li>
           </ul>
+          <p>{myConstClass.TOTAL_COUNT}{this.props.countTodo}</p>
           <button
             onClick={() => {
               this.props.deleteCompleted();
@@ -58,7 +58,7 @@ class TodoFooter extends React.Component {
           >
             Del Compl
           </button>
-          <p>Total: {this.props.countTodo}</p>
+          
         </footer>
       );
     }

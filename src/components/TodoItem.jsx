@@ -42,7 +42,7 @@ class TodoItem extends React.Component {
         />
 
         {this.state.elemEdit ?
-          <input
+          <input className="edit-todo"
             onKeyDown={(e) => this.onEnterDown(e, this.state.newElem)}
             onBlur={() => this.props.editTodo(this.state.newElem)}
             onChange={this.onClickEdit}

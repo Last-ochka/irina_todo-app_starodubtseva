@@ -1,9 +1,13 @@
 .pagination {
-   justify-content: center;
-    display: flex;
-    flex-direction: row;
-    margin-right: 75px;
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  margin-right: 100px;
 }
-.pagination li{
-    margin: 0 3px;
+.pagination li {
+  margin: 0 3px;
+}
+
+.pagination p {
+  margin: 0 20px;
 }
