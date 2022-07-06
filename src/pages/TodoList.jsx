@@ -8,7 +8,7 @@ class TodoList extends React.Component {
     super(props);
     this.addTodo = this.addTodo.bind(this);
     this.state = {
-      todoTaskList: [],
+      todoTaskList: JSON.parse(localStorage.getItem("tasks")) || [],
       listForRender: [],
     }; //           JSON.parse(localStorage.getItem('tasks')) подключить local storage
     this.addTodo = this.addTodo.bind(this);
@@ -18,6 +18,10 @@ class TodoList extends React.Component {
     this.showCompletedTodo = this.showCompletedTodo.bind(this);
     this.showAllTodo = this.showAllTodo.bind(this);
     this.showActiveTodo = this.showActiveTodo.bind(this);
+  }
+
+  componentDidMount() {
+    localStorage.setItem("tasks", JSON.stringify(this.state.todoTaskList));
   }
 
   addTodo(item) {
